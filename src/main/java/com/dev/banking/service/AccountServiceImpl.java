@@ -73,8 +73,18 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public AccountDto updateAcccount(Long id, AccountDto accountDto) {
-//        Account account = accountRepository.findAll();
-        return null;
+    public void deleteAccount(Long id) {
+        Account account = accountRepository
+                .findById(id)
+                .orElseThrow(() -> new RuntimeException("Account not found"));
+
+        accountRepository.deleteById(id);
+
     }
+
+//    @Override
+//    public AccountDto updateAcccount(Long id, AccountDto accountDto) {
+////        Account account = accountRepository.findAll();
+//        return null;
+//    }
 }
