@@ -1,0 +1,38 @@
+### GET request to example server
+GET http://localhost:8080/v1/api/accounts/2
+
+###
+#create users
+POST http://localhost:8080/v1/api/accounts
+Content-Type: application/json
+
+{
+  "accountHolderName": "Aaron Rick",
+  "balance": 200000.00
+}
+
+###
+
+PUT http://localhost:8080/v1/api/accounts/3/deposit
+Content-Type: application/json
+
+{
+  "amount": 300000.00
+}
+###
+
+PUT http://localhost:8080/v1/api/accounts/2/withdraw
+Content-Type: application/json
+
+{
+  "amount": 170000.00
+}
+
+
+###
+
+GET http://localhost:8080/v1/api/accounts
+
+###
+
+
