@@ -2,6 +2,7 @@ package com.dev.banking.service;
 
 import com.dev.banking.dto.AccountDto;
 import com.dev.banking.entity.Account;
+import com.dev.banking.exception.AccountException;
 import com.dev.banking.method.AccountMapper;
 import com.dev.banking.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,7 @@ public class AccountServiceImpl implements AccountService {
     public AccountDto getAccountById(Long id) {
         Account account = accountRepository
                 .findById(id)
-                .orElseThrow(() -> new RuntimeException("Account not found"));
+                .orElseThrow(() -> new AccountException("Account not found"));
         return AccountMapper.mapToAccountDto(account);
     }
 
@@ -40,7 +41,7 @@ public class AccountServiceImpl implements AccountService {
     public AccountDto deposit(Long id, Double amount) {
         Account account = accountRepository
                 .findById(id)
-                .orElseThrow(() -> new RuntimeException("Account not found"));
+                .orElseThrow(() -> new AccountException("Account not found"));
         double total = account.getBalance() + amount;
         account.setBalance(total);
         Account savedAccount = accountRepository.save(account);
@@ -52,10 +53,11 @@ public class AccountServiceImpl implements AccountService {
         // Check in databse if account is existing or not
         Account account = accountRepository
                 .findById(id)
-                .orElseThrow(() -> new RuntimeException("Account not found"));
+                .orElseThrow(() -> new AccountException("Account not found"));
 
+        // Error message for insufficient funds
         if(account.getBalance() <  amount) {
-            throw new RuntimeException("Insufficient funds");
+            throw new AccountException("Insufficient funds");
         }
 
         double total = account.getBalance() - amount;
@@ -68,7 +70,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public List<AccountDto> getAllAccounts() {
           List<Account> accounts = accountRepository.findAll();
-          return accounts.stream().map((account -> AccountMapper.mapToAccountDto(account)))
+          return accounts.stream().map((AccountMapper::mapToAccountDto))
                 .collect(Collectors.toList());
     }
 
@@ -76,7 +78,7 @@ public class AccountServiceImpl implements AccountService {
     public void deleteAccount(Long id) {
         Account account = accountRepository
                 .findById(id)
-                .orElseThrow(() -> new RuntimeException("Account not found"));
+                .orElseThrow(() -> new AccountException("Account not found"));
 
         accountRepository.deleteById(id);
 

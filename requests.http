@@ -21,11 +21,11 @@ Content-Type: application/json
 }
 ###
 
-PUT http://localhost:8080/v1/api/accounts/3/withdraw
+PUT http://localhost:8080/v1/api/accounts/6/withdraw
 Content-Type: application/json
 
 {
-  "amount": 170000.00
+  "amount": 10000000.00
 }
 
 
@@ -35,7 +35,7 @@ GET http://localhost:8080/v1/api/accounts
 
 ###
 
-DELETE http://localhost:8080/v1/api/accounts/5
+GET http://localhost:8080/v1/api/accounts
 
 
 
